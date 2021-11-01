@@ -1,8 +1,6 @@
 // errors4.rs
 // Make this test pass! Execute `rustlings hint errors4` for hints :)
 
-// I AM NOT DONE
-
 #[derive(PartialEq, Debug)]
 struct PositiveNonzeroInteger(u64);
 
@@ -14,7 +12,14 @@ enum CreationError {
 
 impl PositiveNonzeroInteger {
     fn new(value: i64) -> Result<PositiveNonzeroInteger, CreationError> {
-        Ok(PositiveNonzeroInteger(value as u64))
+        /* Very happy with this match statement. I was originally getting upset about
+        the `value as u64` line without realising that wouldn't fail with the tests :-) */
+
+        match value {
+            i if i < 0 => Err(CreationError::Negative),
+            0 => Err(CreationError::Zero),
+            _ => Ok(PositiveNonzeroInteger(value as u64)),
+        }
     }
 }
 
